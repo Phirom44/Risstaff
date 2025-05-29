@@ -1,93 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title >QR Attendance</title>
+  <link rel="shortcut icon" href="Logo1.PNG" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Angkor&family=Bayon&family=Dangrek&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Moul&family=Suwannaphum:wght@100;300;400;700;900&display=swap" rel="stylesheet">
-  <title>QR Attendance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Angkor&family=Bayon&family=Dangrek&family=Suwannaphum:wght@700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/html5-qrcode"></script>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #f3f4f6, #d1d5db);
+      font-family: 'Suwannaphum', serif;
       margin: 0;
       padding: 0;
+      background: linear-gradient(to right, #f3f4f6, #e5e7eb);
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       min-height: 100vh;
     }
-    .angkor-regular {
-  font-family: "Angkor", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
 
     .container {
       background: white;
-      padding: 2rem;
       border-radius: 15px;
+      padding: 20px;
+      max-width: 500px;
+      width: 95%;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       text-align: center;
-      width: 90%;
-      max-width: 400px;
+    }
+
+    img.logo {
+      width: 100px;
+      height: auto;
+      margin-bottom: 15px;
     }
 
     h1 {
-      margin-bottom: 1rem;
-      color: #111827;
-      font-family: "Bayon", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+      font-family: 'Bayon', sans-serif;
+      color: #1f2937;
+      margin-bottom: 20px;
     }
 
     #qr-reader {
       width: 100%;
-      margin-bottom: 1rem;
+      min-height: 250px;
       border: 2px dashed #9ca3af;
       border-radius: 10px;
+      margin-bottom: 15px;
     }
 
     .status {
-      margin-top: 1rem;
-      font-size: 1rem;
-      color: #047857;
+      margin-top: 10px;
+      font-size: 1.1rem;
       font-weight: bold;
-      font-family: "Dangrek", sans-serif;
-  font-weight: 400;
-  font-style: normal;
     }
 
     .error {
-      color: #b91c1c;
+      color: #dc2626;
+    }
+
+    .success {
+      color: #16a34a;
     }
 
     button {
-      margin-top: 1rem;
-      font-family: "Suwannaphum", serif;
-  font-weight: 700;
-  font-style: normal;
-      background-color: #2563eb;
-      color: white;
-      border: none;
-      padding: 0.6rem 1.2rem;
+      margin-top: 10px;
+      font-family: 'Suwannaphum', serif;
+      font-weight: bold;
+      padding: 10px 20px;
       font-size: 1rem;
+      color: white;
+      background-color: #2563eb;
+      border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background-color 0.3s;
     }
 
     button:hover {
       background-color: #1d4ed8;
     }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.3rem;
+      }
+      button {
+        font-size: 0.95rem;
+      }
+    }
   </style>
-  <script src="https://unpkg.com/html5-qrcode"></script>
+ 
 </head>
 <body>
   <div class="container">
+    <img src="Logo1.PNG" class="logo" alt="School Logo" />
     <h1>📲 ស្កេនវត្តមាន</h1>
     <div id="qr-reader"></div>
     <div id="status" class="status">📍 កំពុងរកទីតាំង...</div>
@@ -95,11 +108,9 @@
   </div>
 
   <script>
-    const telegramBotToken = "YOUR_BOT_TOKEN";
-    const telegramChatId = "YOUR_CHAT_ID";
-    const officeLat = 13.529295;  // តម្លៃពី QXF8+683
-    const officeLng = 105.974531;
-    const allowedRadius = 0.1; // in km (100m)
+    const officeLat = 12.7797782;
+    const officeLng = 105.9658602;
+    const allowedRadius = 0.1; // ចម្ងាយអនុញ្ញាត (គីឡូម៉ែត្រ)
 
     function distance(lat1, lon1, lat2, lon2) {
       const R = 6371;
@@ -110,18 +121,6 @@
                 Math.sin(dLon/2) * Math.sin(dLon/2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
       return R * c;
-    }
-
-    function sendTelegramMessage(text) {
-      fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: telegramChatId,
-          text: text,
-          parse_mode: "Markdown"
-        })
-      });
     }
 
     function startScanner() {
@@ -144,11 +143,9 @@
           { facingMode: "environment" },
           { fps: 10, qrbox: 250 },
           qrCodeMessage => {
-            const time = new Date().toLocaleString("en-GB");
-            const message = `📌 វត្តមានថ្មី\n🔢 QR: ${qrCodeMessage}\n🕐 ${time}`;
-            sendTelegramMessage(message);
             document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
             qrReader.stop();
+            window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48"; // បើក Form
           },
           error => {
             console.warn("QR Error", error);
