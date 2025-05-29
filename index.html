@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Angkor&family=Bayon&family=Dangrek&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Moul&family=Suwannaphum:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+  <title>QR Attendance</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f3f4f6, #d1d5db);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .angkor-regular {
+  font-family: "Angkor", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      color: #111827;
+      font-family: "Bayon", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+    }
+
+    #qr-reader {
+      width: 100%;
+      margin-bottom: 1rem;
+      border: 2px dashed #9ca3af;
+      border-radius: 10px;
+    }
+
+    .status {
+      margin-top: 1rem;
+      font-size: 1rem;
+      color: #047857;
+      font-weight: bold;
+      font-family: "Dangrek", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+    }
+
+    .error {
+      color: #b91c1c;
+    }
+
+    button {
+      margin-top: 1rem;
+      font-family: "Suwannaphum", serif;
+  font-weight: 700;
+  font-style: normal;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+  </style>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>📲 ស្កេនវត្តមាន</h1>
+    <div id="qr-reader"></div>
+    <div id="status" class="status">📍 កំពុងរកទីតាំង...</div>
+    <button onclick="startScanner()">ចាប់ផ្ដើមស្កេន</button>
+  </div>
+
+  <script>
+    const telegramBotToken = "YOUR_BOT_TOKEN";
+    const telegramChatId = "YOUR_CHAT_ID";
+    const officeLat = 13.529295;  // តម្លៃពី QXF8+683
+    const officeLng = 105.974531;
+    const allowedRadius = 0.1; // in km (100m)
+
+    function distance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+
+    function sendTelegramMessage(text) {
+      fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: telegramChatId,
+          text: text,
+          parse_mode: "Markdown"
+        })
+      });
+    }
+
+    function startScanner() {
+      navigator.geolocation.getCurrentPosition(position => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        const dist = distance(lat, lng, officeLat, officeLng);
+
+        if (dist > allowedRadius) {
+          document.getElementById("status").innerHTML = "❌ ខ្ញុំស្ថិតក្រៅតំបន់ការងារ!";
+          document.getElementById("status").className = "status error";
+          return;
+        }
+
+        document.getElementById("status").innerHTML = "✅ នៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
+        document.getElementById("status").className = "status";
+
+        const qrReader = new Html5Qrcode("qr-reader");
+        qrReader.start(
+          { facingMode: "environment" },
+          { fps: 10, qrbox: 250 },
+          qrCodeMessage => {
+            const time = new Date().toLocaleString("en-GB");
+            const message = `📌 វត្តមានថ្មី\n🔢 QR: ${qrCodeMessage}\n🕐 ${time}`;
+            sendTelegramMessage(message);
+            document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
+            qrReader.stop();
+          },
+          error => {
+            console.warn("QR Error", error);
+          }
+        );
+      }, error => {
+        document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
+        document.getElementById("status").className = "status error";
+      });
+    }
+  </script>
+</body>
+</html>
