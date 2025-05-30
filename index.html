@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title >QR Attendance</title>
+  <title >QR Attendance RIS</title>
   <link rel="shortcut icon" href="Logo1.PNG" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -107,55 +107,63 @@
     <button onclick="startScanner()">ចាប់ផ្ដើមស្កេន</button>
   </div>
 
-  <script>
-    const officeLat = 12.7797782;
-    const officeLng = 105.9658602;
-    const allowedRadius = 0.1; // ចម្ងាយអនុញ្ញាត (គីឡូម៉ែត្រ)
+<script>
+  // បញ្ជាក់ពីរទីតាំងអនុញ្ញាត
+  const allowedLocations = [
+    { lat: 12.7797782, lng: 105.9658602 },
+    { lat: 12.7729579, lng: 105.9660077 }
+  ];
 
-    function distance(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c;
-    }
+  const allowedRadius = 0.1; // 0.1km = 100m
 
-    function startScanner() {
-      navigator.geolocation.getCurrentPosition(position => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        const dist = distance(lat, lng, officeLat, officeLng);
+  function distance(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
 
-        if (dist > allowedRadius) {
-          document.getElementById("status").innerHTML = "❌ ខ្ញុំស្ថិតក្រៅតំបន់ការងារ!";
-          document.getElementById("status").className = "status error";
-          return;
-        }
+  function startScanner() {
+    navigator.geolocation.getCurrentPosition(position => {
+      const userLat = position.coords.latitude;
+      const userLng = position.coords.longitude;
 
-        document.getElementById("status").innerHTML = "✅ នៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
-        document.getElementById("status").className = "status";
+      const isInsideAllowedZone = allowedLocations.some(loc =>
+        distance(userLat, userLng, loc.lat, loc.lng) <= allowedRadius
+      );
 
-        const qrReader = new Html5Qrcode("qr-reader");
-        qrReader.start(
-          { facingMode: "environment" },
-          { fps: 10, qrbox: 250 },
-          qrCodeMessage => {
-            document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
-            qrReader.stop();
-            window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48"; // បើក Form
-          },
-          error => {
-            console.warn("QR Error", error);
-          }
-        );
-      }, error => {
-        document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
+      if (!isInsideAllowedZone) {
+        document.getElementById("status").innerHTML = "❌ ខ្ញុំស្ថិតក្រៅតំបន់ការងារ!";
         document.getElementById("status").className = "status error";
-      });
-    }
-  </script>
+        return;
+      }
+
+      document.getElementById("status").innerHTML = "✅ នៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
+      document.getElementById("status").className = "status";
+
+      const qrReader = new Html5Qrcode("qr-reader");
+      qrReader.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        qrCodeMessage => {
+          document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
+          qrReader.stop();
+          window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48"; // ប្ដូរតាម Form របស់អ្នក
+        },
+        error => {
+          console.warn("QR Error", error);
+        }
+      );
+    }, error => {
+      document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
+      document.getElementById("status").className = "status error";
+    });
+  }
+</script>
+
 </body>
 </html>
