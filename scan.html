@@ -166,61 +166,87 @@
     <div class="credit">Create by SREAN Phirom</div>
   </div>
 
-  <script>
-    const officeLat = 12.7799064;
-    const officeLng = 105.9657238;
-    const allowedRadius = 0.1; // ចម្ងាយអនុញ្ញាត (គីឡូម៉ែត្រ)
+<script>
+  const officeLat = 12.7799064;
+  const officeLng = 105.9657238;
+  const allowedRadius = 0.1; // 100m
 
-    function distance(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c;
-    }
-    function goBack() {
-  window.location.href = "index.html";
-}
+  function distance(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
 
-    function startScanner() {
-      navigator.geolocation.getCurrentPosition(position => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        const dist = distance(lat, lng, officeLat, officeLng);
+  function goBack() {
+    window.location.href = "index.html";
+  }
 
-        if (dist > allowedRadius) {
-          document.getElementById("status").innerHTML = "❌ ខ្ញុំស្ថិតក្រៅតំបន់ការងារ!";
-          document.getElementById("status").className = "status error";
-          return;
-        }
+  let dots = 0;
+  let loadingInterval;
 
-        document.getElementById("status").innerHTML = "✅ នៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
-        document.getElementById("status").className = "status success";
+  function startLoadingAnimation() {
+    loadingInterval = setInterval(() => {
+      dots = (dots + 1) % 4;
+      const dotStr = ".".repeat(dots);
+      document.getElementById("status").innerText = "📍 កំពុងត្រួតពិនិត្យទីតាំង" + dotStr;
+    }, 500);
+  }
 
-        const qrReader = new Html5Qrcode("qr-reader");
-        qrReader.start(
-          { facingMode: "environment" },
-          { fps: 10, qrbox: 250 },
-          qrCodeMessage => {
-            document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
-            document.getElementById("status").className = "status success";
-            qrReader.stop().then(() => {
-              window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48";
-            }).catch(err => console.error("Stop error:", err));
-          },
-          error => {
-            // ពិនិត្យកំហុសជារៀងរាល់ដង
-          }
-        );
-      }, error => {
-        document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
+  function stopLoadingAnimation() {
+    clearInterval(loadingInterval);
+  }
+
+  function startScanner() {
+    startLoadingAnimation();
+
+    navigator.geolocation.getCurrentPosition(position => {
+      stopLoadingAnimation();
+
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      const dist = distance(lat, lng, officeLat, officeLng);
+
+      if (dist > allowedRadius) {
+        document.getElementById("status").innerHTML = "❌ ខ្ញុំស្ថិតក្រៅតំបន់ការងារ!";
         document.getElementById("status").className = "status error";
-      });
-      
-    }
-  </script>
+        return;
+      }
+
+      document.getElementById("status").innerHTML = "✅ នៅក្នុងតំបន់ការងារ។ កំពុងរង់ចាំការស្កេន...";
+      document.getElementById("status").className = "status success";
+
+      const qrReader = new Html5Qrcode("qr-reader");
+      qrReader.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        qrCodeMessage => {
+          document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
+          document.getElementById("status").className = "status success";
+          qrReader.stop().then(() => {
+            window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48";
+          }).catch(err => console.error("Stop error:", err));
+        },
+        error => {
+          // អាចបង្ហាញកំហុសនៅទីនេះ
+        }
+      );
+    }, error => {
+      stopLoadingAnimation();
+      document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
+      document.getElementById("status").className = "status error";
+    });
+  }
+
+  // Start scanning automatically when page loads
+  window.onload = () => {
+    startScanner();
+  };
+</script>
+
 </body>
 </html>
