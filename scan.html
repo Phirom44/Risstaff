@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QR Attendance</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="Logo1.PNG">
+<link rel="icon" href="Logo1.PNG" sizes="192x192" type="image/png">
+<meta name="theme-color" content="#1a73e8">
+ 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Angkor&family=Bayon&family=Dangrek&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Moul&family=Suwannaphum:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Suwannaphum', serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #f3f4f6, #e5e7eb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    
+    .container {
+      background: #ffff;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.479);
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    p{
+      font-family: "Moul", serif;
+     font-weight: 400;
+     font-style: normal;
+      margin-top: 0%;
+      color: #0d3896;
+      margin-bottom: 0%;
+     
+    }
+    .R{
+      margin-bottom: 10px;
+      color: #f00619;
+    }
+    img.logo {
+      width: 100px;
+      height: auto;
+      margin-bottom: 5px;
+    }
+
+    h1 {
+      font-family: 'Bayon', sans-serif;
+      color: #1f2937;
+      margin-top: 0%;
+      margin-bottom: 20px;
+    }
+
+    #qr-reader {
+      width: 100%;
+      min-height: 250px;
+      border: 2px dashed #9ca3af;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .error {
+      color: #dc2626;
+    }
+
+    .success {
+      color: #16a34a;
+    }
+
+    button {
+      margin-top: 10px;
+      font-family: 'Suwannaphum', serif;
+      font-weight: bold;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: white;
+      background-color: #2563eb;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.3rem;
+      }
+      p{
+      font-family: "Moul", serif;
+     font-weight: 400;
+     font-style: normal;
+      margin-top: 0%;
+      color: #0d3896;
+      margin-bottom: 0%;
+     
+    }
+    .container {
+      background: #ffff;
+      border-radius: 15px;
+      padding: 15px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.479);
+      text-align: center;
+    }
+    .R{
+      margin-bottom: 10px;
+      color: #f00619;
+    }
+      button {
+        font-size: 0.95rem;
+      }
+    }
+    .credit {
+      margin-top: 15px;
+      font-size: 13px;
+      color: #aaa;
+    }
+    .back{
+        background-color: #dc2626;
+    }
+    
+
+
+  /* ... CSS បន្ថែម ... */
+</style>
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="Logo1.PNG" class="logo" alt="School Logo" />
+    <p>សាលាអន្តរជាតិ រីវើឡែនឌ៏</p>
+    <p class="R">Riverland International School</p>
+    <h1>📲 ស្កេនវត្តមាន</h1>
+    <div id="qr-reader"></div>
+    <div id="status" class="status">📍 កំពុងត្រួតពិនិត្យទីតាំង...</div>
+    <button onclick="startScanner()">ចាប់ផ្ដើមស្កេន</button>
+    <button onclick="goBack()" class="back">ត្រឡប់ក្រោយ</button>
+    <div class="credit">Create by SREAN Phirom</div>
+  </div>
+
+  <script>
+    const officeLat = 12.7799064;
+    const officeLng = 105.9657238;
+    const allowedRadius = 0.1; // ចម្ងាយអនុញ្ញាត (គីឡូម៉ែត្រ)
+
+    function distance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+    function goBack() {
+  window.location.href = "index.html";
+}
+
+    function startScanner() {
+      navigator.geolocation.getCurrentPosition(position => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        const dist = distance(lat, lng, officeLat, officeLng);
+
+        if (dist > allowedRadius) {
+          document.getElementById("status").innerHTML = "❌ ខ្ញុំស្ថិតក្រៅតំបន់ការងារ!";
+          document.getElementById("status").className = "status error";
+          return;
+        }
+
+        document.getElementById("status").innerHTML = "✅ នៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
+        document.getElementById("status").className = "status success";
+
+        const qrReader = new Html5Qrcode("qr-reader");
+        qrReader.start(
+          { facingMode: "environment" },
+          { fps: 10, qrbox: 250 },
+          qrCodeMessage => {
+            document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
+            document.getElementById("status").className = "status success";
+            qrReader.stop().then(() => {
+              window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48";
+            }).catch(err => console.error("Stop error:", err));
+          },
+          error => {
+            // ពិនិត្យកំហុសជារៀងរាល់ដង
+          }
+        );
+      }, error => {
+        document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
+        document.getElementById("status").className = "status error";
+      });
+      
+    }
+  </script>
+</body>
+</html>
