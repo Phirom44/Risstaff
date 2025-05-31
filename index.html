@@ -2,208 +2,127 @@
 <html lang="km">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>QR Attendance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>សេវាកម្មសាលា Riverland</title>
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="Logo1.PNG">
-<link rel="icon" href="Logo1.PNG" sizes="192x192" type="image/png">
-<meta name="theme-color" content="#1a73e8">
- 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Angkor&family=Bayon&family=Dangrek&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Moul&family=Suwannaphum:wght@100;300;400;700;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/html5-qrcode"></script>
+  <link rel="icon" href="Logo1.PNG" sizes="192x192" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Suwannaphum', serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(to right, #f3f4f6, #e5e7eb);
+      font-family: 'Noto Sans Khmer', sans-serif;
+      background: linear-gradient(to bottom right, #0f2027, #71c7e4, #2c5364);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
     }
 
-    
     .container {
-      background: #ffff;
-      border-radius: 15px;
-      padding: 30px;
-      max-width: 500px;
+      background-color: #ffffff;
+      color: #142286;
       width: 90%;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.479);
+      max-width: 400px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
       text-align: center;
+      padding: 30px 20px;
+      margin: 10px;
     }
-    p{
-      font-family: "Moul", serif;
-     font-weight: 400;
-     font-style: normal;
-      margin-top: 0%;
-      color: #0d3896;
-      margin-bottom: 0%;
-     
-    }
-    .R{
+
+    img {
+      width: 120px;
       margin-bottom: 10px;
-      color: #f00619;
-    }
-    img.logo {
-      width: 100px;
-      height: auto;
-      margin-bottom: 5px;
     }
 
     h1 {
-      font-family: 'Bayon', sans-serif;
-      color: #1f2937;
-      margin-top: 0%;
-      margin-bottom: 20px;
-    }
-
-    #qr-reader {
-      width: 100%;
-      min-height: 250px;
-      border: 2px dashed #9ca3af;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-
-    .status {
-      margin-top: 10px;
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
-
-    .error {
-      color: #dc2626;
-    }
-
-    .success {
-      color: #16a34a;
-    }
-
-    button {
-      margin-top: 10px;
-      font-family: 'Suwannaphum', serif;
-      font-weight: bold;
-      padding: 10px 20px;
-      font-size: 1rem;
-      color: white;
-      background-color: #2563eb;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #1d4ed8;
-    }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 1.3rem;
-      }
-      p{
+      font-size: 24px;
       font-family: "Moul", serif;
-     font-weight: 400;
-     font-style: normal;
-      margin-top: 0%;
       color: #0d3896;
-      margin-bottom: 0%;
-     
+      margin: 0;
     }
-    .container {
-      background: #ffff;
-      border-radius: 15px;
-      padding: 15px;
-      max-width: 500px;
-      width: 90%;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.479);
-      text-align: center;
+
+    p {
+      font-size: 24px;
+      color: #ff4d4d;
+      font-family: "Moul", serif;
+      margin: 0 0 30px 0;
     }
-    .R{
-      margin-bottom: 10px;
-      color: #f00619;
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
     }
-      button {
-        font-size: 0.95rem;
-      }
+
+    .digital-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(145deg, #004e92, #0a92d1);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      width: 140px;
+      height: 140px;
+      font-size: 15px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 8px 20px rgba(0, 114, 255, 0.4);
     }
+
+    .digital-button:hover {
+      transform: translateY(-6px);
+      background: linear-gradient(145deg, #66e0f0, #04c0a1);
+      box-shadow: 0 12px 24px rgba(255, 75, 43, 0.5);
+    }
+
+    .icon {
+      font-size: 32px;
+    }
+
     .credit {
       margin-top: 15px;
       font-size: 13px;
       color: #aaa;
     }
+    .icon {
+    font-size: 40px;
+  }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="Logo1.PNG" class="logo" alt="School Logo" />
-    <p>សាលាអន្តរជាតិ រីវើឡែនឌ៏</p>
-    <p class="R">Riverland International School</p>
-    <h1>📲 ស្កេនវត្តមាន</h1>
-    <div id="qr-reader"></div>
-    <div id="status" class="status">📍 កំពុងត្រួតពិនិត្យទីតាំង...</div>
-    <button onclick="startScanner()">ចាប់ផ្ដើមស្កេន</button>
+    <img src="Logo1.PNG" alt="Logo សាលា" />
+    <h1>សាលាអន្តរជាតិ​ រីវើឡែនឌ៏</h1>
+    <p>Riverland International School</p>
+
+    <div class="button-container">
+      <a href="scan.html" class="digital-button">
+        <i class="fas fa-qrcode icon"></i>
+        ស្កេន QR
+      </a>
+      <a href="https://forms.gle/Vy8tS9kn6CdXtQjh7" class="digital-button">
+        <i class="fas fa-file-signature icon"></i>
+        សុំច្បាប់
+      </a>
+    </div>
+
     <div class="credit">Create by SREAN Phirom</div>
   </div>
 
   <script>
-    const officeLat = 12.7799064;
-    const officeLng = 105.9657238;
-    const allowedRadius = 0.1; // ចម្ងាយអនុញ្ញាត (គីឡូម៉ែត្រ)
-
-    function distance(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c;
-    }
-
-    function startScanner() {
-      navigator.geolocation.getCurrentPosition(position => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        const dist = distance(lat, lng, officeLat, officeLng);
-
-        if (dist > allowedRadius) {
-          document.getElementById("status").innerHTML = "❌ ខ្ញុំស្ថិតក្រៅតំបន់ការងារ!";
-          document.getElementById("status").className = "status error";
-          return;
-        }
-
-        document.getElementById("status").innerHTML = "✅ នៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
-        document.getElementById("status").className = "status success";
-
-        const qrReader = new Html5Qrcode("qr-reader");
-        qrReader.start(
-          { facingMode: "environment" },
-          { fps: 10, qrbox: 250 },
-          qrCodeMessage => {
-            document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
-            document.getElementById("status").className = "status success";
-            qrReader.stop().then(() => {
-              window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48";
-            }).catch(err => console.error("Stop error:", err));
-          },
-          error => {
-            // ពិនិត្យកំហុសជារៀងរាល់ដង
-          }
-        );
-      }, error => {
-        document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
-        document.getElementById("status").className = "status error";
-      });
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("✅ Service Worker Registered"))
+        .catch(err => console.error("❌ Service Worker Failed", err));
     }
   </script>
 </body>
