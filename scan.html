@@ -212,12 +212,12 @@
       const dist = distance(lat, lng, officeLat, officeLng);
 
       if (dist > allowedRadius) {
-        document.getElementById("status").innerHTML = "❌ ខ្ញុំស្ថិតក្រៅតំបន់ការងារ!";
+        document.getElementById("status").innerHTML = "❌ អ្នកស្ថិតក្រៅតំបន់ការងារ!";
         document.getElementById("status").className = "status error";
         return;
       }
 
-      document.getElementById("status").innerHTML = "✅ នៅក្នុងតំបន់ការងារ។ កំពុងរង់ចាំការស្កេន...";
+      document.getElementById("status").innerHTML = "✅ អ្នកនៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
       document.getElementById("status").className = "status success";
 
       const qrReader = new Html5Qrcode("qr-reader");
