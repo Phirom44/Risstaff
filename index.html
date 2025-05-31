@@ -40,14 +40,14 @@
     }
 
     h1 {
-      font-size:clamp(18px, 5vw, 24px);
+     font-size: 24px;
       font-family: "Moul", serif;
       color: #0d3896;
       margin: 0;
     }
 
     p {
-      font-size: clamp(14px, 4vw, 24px);
+     font-size: 24px;
       color: #ff4d4d;
       font-family:'Times New Roman', Times, serif;
       margin: 0 0 30px 0;
@@ -97,6 +97,27 @@
     .icon {
     font-size: 40px;
   }
+    /* Media query for smaller screens */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+}
+
+/* Media query for larger screens */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 28px;
+  }
+
+  p {
+    font-size: 22px;
+  }
+}
   </style>
 </head>
 <body>
