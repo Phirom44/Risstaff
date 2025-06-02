@@ -197,6 +197,71 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+
+    /* Notification Popup Style */
+    .notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #fff;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      animation: slideIn 0.5s ease-out;
+      border-left: 5px solid #dc2626;
+    }
+    
+    .notification.success {
+      border-left-color: #16a34a;
+    }
+    
+    .notification.error {
+      border-left-color: #dc2626;
+    }
+    
+    .notification-icon {
+      margin-right: 15px;
+      font-size: 24px;
+    }
+    
+    .notification-content {
+      flex: 1;
+      text-align: left;
+    }
+    
+    .notification-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-family: 'Bayon', sans-serif;
+    }
+    
+    .notification-message {
+      font-size: 0.9rem;
+    }
+    
+    @keyframes slideIn {
+      from {
+        top: -100px;
+        opacity: 0;
+      }
+      to {
+        top: 20px;
+        opacity: 1;
+      }
+    }
+    
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -209,7 +274,6 @@
     <div id="status" class="status">📍 កំពុងពិនិត្យទីតាំង<span class="loading"></span></div>
     <div id="loading">
       <div class="spinner"></div>
-     
     </div>
     <button onclick="startScanner()" id="scanBtn" style="display:none;">ចាប់ផ្ដើមស្កេន</button>
     <button onclick="goBack()" class="back">ត្រឡប់ក្រោយ</button>
@@ -254,6 +318,29 @@
       return { allowed: false };
     }
 
+    // បង្ហាញ Notification
+    function showNotification(type, title, message) {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.innerHTML = `
+        <div class="notification-icon">${type === 'success' ? '✅' : '❌'}</div>
+        <div class="notification-content">
+          <div class="notification-title">${title}</div>
+          <div class="notification-message">${message}</div>
+        </div>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // លុប Notification បន្ទាប់ពី 5វិនាទី
+      setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.5s ease-out';
+        setTimeout(() => {
+          notification.remove();
+        }, 500);
+      }, 5000);
+    }
+
     function startScanner() {
       document.getElementById('status').innerHTML = "✅ អ្នកនៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
       document.getElementById('status').className = "status success";
@@ -263,16 +350,17 @@
       qrReader = new Html5Qrcode("qr-reader");
       qrReader.start(
         { facingMode: "environment" },
-        { fps: 10, qrbox: 150 },
+        { fps: 30, qrbox: 200 },
         qrCodeMessage => {
           document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
           document.getElementById("status").className = "status success";
+          showNotification('success', 'ស្កេនជោគជ័យ', 'អ្នកបានស្កេនវត្តមានដោយជោគជ័យ!');
           qrReader.stop().then(() => {
             window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48";
           }).catch(err => console.error("Stop error:", err));
         },
         error => {
-          // ពិនិត្យកំហុសជារៀងរាល់ដង
+          console.debug("QR Scanner error:", error);
         }
       ).catch(err => {
         console.error("Failed to start scanner:", err);
@@ -301,12 +389,26 @@
           document.getElementById('status').innerHTML = "❌ អ្នកស្ថិតក្រៅតំបន់ការងារ!";
           document.getElementById('status').className = "status error";
           document.getElementById('scanBtn').style.display = 'block';
+          
+          // បង្ហាញ Notification នៅពេលនៅក្រៅតំបន់ការងារ
+          showNotification(
+            'error', 
+            'ការជូនដំណឹង', 
+            'អ្នកស្ថិតនៅក្រៅតំបន់ការងារ! សូមធ្វើការស្កេននៅក្នុងតំបន់ដែលបានកំណត់។'
+          );
         }
       }, error => {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('status').innerText = "❌ មិនអាចចាប់ទីតាំងបាន! សូមព្យាយាមម្តងទៀត";
         document.getElementById('status').className = "status error";
         document.getElementById('scanBtn').style.display = 'block';
+        
+        // បង្ហាញ Notification នៅពេលមិនអាចចាប់ទីតាំងបាន
+        showNotification(
+          'error', 
+          'ការជូនដំណឹង', 
+          'មិនអាចចាប់ទីតាំងបាន! សូមព្យាយាមម្តងទៀត។'
+        );
       }, {
         enableHighAccuracy: true,
         timeout: 5000,
