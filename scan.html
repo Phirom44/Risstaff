@@ -166,47 +166,45 @@
       });
     }
 
-    window.onload = () => {
+   window.onload = () => {
+  Swal.fire({
+    title: 'កំពុងពិនិត្យទីតាំង...',
+    text: 'សូមរងចាំ...',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  navigator.geolocation.getCurrentPosition(position => {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+
+    if (!isInOfficeArea(lat, lng)) {
       Swal.fire({
-        title: 'កំពុងពិនិត្យទីតាំង...',
-        text: 'សូមរងចាំ...',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        }
+        icon: 'error',
+        title: 'ក្រៅតំបន់ការងារ!',
+        text: 'សូមនៅជិតទីតាំងការងារ។'
       });
+      document.getElementById("status").innerHTML = "❌ អ្នកស្ថិតក្រៅតំបន់ការងារ!";
+      document.getElementById("status").className = "status error";
+    } else {
+      Swal.close(); // ✨ បិទ loading
+      document.getElementById("status").innerHTML = "✅ អ្នកនៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
+      document.getElementById("status").className = "status success";
+      startScanner(); // ✨ ចាប់ផ្ដើមស្កេនទៀត
+    }
+  }, () => {
+    Swal.fire({
+      icon: 'error',
+      title: 'មិនអាចចាប់ទីតាំងបាន!',
+      text: 'សូមអនុញ្ញាតឲ្យប្រើ Location នៅលើ Browser។'
+    });
+    document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
+    document.getElementById("status").className = "status error";
+  });
+};
 
-      navigator.geolocation.getCurrentPosition(position => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-
-        if (!isInOfficeArea(lat, lng)) {
-          Swal.fire({
-            icon: 'error',
-            title: 'ក្រៅតំបន់ការងារ!',
-            text: 'សូមនៅជិតទីតាំងការងារ។'
-          });
-          document.getElementById("status").innerHTML = "❌ អ្នកស្ថិតក្រៅតំបន់ការងារ!";
-          document.getElementById("status").className = "status error";
-        } else {
-          Swal.fire({
-            icon: 'success',
-            title: '✓ ត្រួតពិនិត្យទីតាំងជោគជ័យ',
-            text: 'អ្នកស្ថិតនៅក្នុងតំបន់ការងារ។'
-          });
-          document.getElementById("status").innerHTML = "✅ អ្នកនៅក្នុងតំបន់ការងារ។";
-          document.getElementById("status").className = "status success";
-        }
-      }, () => {
-        Swal.fire({
-          icon: 'error',
-          title: 'មិនអាចចាប់ទីតាំងបាន!',
-          text: 'សូមអនុញ្ញាតឲ្យប្រើ Location នៅលើ Browser។'
-        });
-        document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
-        document.getElementById("status").className = "status error";
-      });
-    };
   </script>
 </body>
 </html>
