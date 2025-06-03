@@ -8,9 +8,6 @@
   <link rel="apple-touch-icon" href="Logo1.PNG">
   <link rel="icon" href="Logo1.PNG" sizes="192x192" type="image/png">
   <meta name="theme-color" content="#1a73e8">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Angkor&family=Bayon&family=Dangrek&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Moul&family=Suwannaphum:wght@100;300;400;700;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Moul&family=Suwannaphum:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/html5-qrcode"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -83,7 +80,7 @@
     <p class="R">Riverland International School</p>
     <h1>📲 ស្កេនវត្តមាន</h1>
     <div id="qr-reader"></div>
-    <div id="status" class="status">📍 កំពុងត្រួតពិនិត្យទីតាំង...</div>
+    <div id="status" class="status">📍 ចុចប៊ូតុងដើម្បីចាប់ផ្ដើម</div>
     <button onclick="startScanner()">ចាប់ផ្ដើមស្កេន</button>
     <button onclick="goBack()" class="back">ត្រឡប់ក្រោយ</button>
     <div class="credit">Create by SREAN Phirom</div>
@@ -94,7 +91,7 @@
       { lat: 12.7798001, lng: 105.9658136 },
       { lat: 12.77276, lng: 105.96603 }
     ];
-    const allowedRadius = 0.1;
+    const allowedRadius = 0.1; // km
 
     function distance(lat1, lon1, lat2, lon2) {
       const R = 6371;
@@ -118,96 +115,67 @@
     }
 
     function startScanner() {
+      Swal.fire({
+        title: 'កំពុងពិនិត្យទីតាំង...',
+        text: 'សូមរងចាំ...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
       navigator.geolocation.getCurrentPosition(position => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
 
         if (!isInOfficeArea(lat, lng)) {
-          document.getElementById("status").innerHTML = "❌ អ្នកស្ថិតក្រៅតំបន់ការងារ!";
-          document.getElementById("status").className = "status error";
           Swal.fire({
             icon: 'error',
             title: 'ក្រៅតំបន់ការងារ!',
-            text: 'សូមមេត្តាចូលមកក្នុងតំបន់ការងារដើម្បីស្កេនវត្តមាន។'
+            text: 'សូមចូលទៅក្នុងតំបន់ការងារដើម្បីស្កេនវត្តមាន។'
           });
+          document.getElementById("status").innerHTML = "❌ អ្នកស្ថិតក្រៅតំបន់ការងារ!";
+          document.getElementById("status").className = "status error";
           return;
         }
 
+        Swal.close();
         document.getElementById("status").innerHTML = "✅ អ្នកនៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
         document.getElementById("status").className = "status success";
 
-        try {
-          const qrReader = new Html5Qrcode("qr-reader");
-          qrReader.start(
-            { facingMode: "environment" },
-            { fps: 10, qrbox: 250 },
-            qrCodeMessage => {
+        const qrReader = new Html5Qrcode("qr-reader");
+
+        qrReader.start(
+          { facingMode: { exact: "environment" } }, // 📸 Use back camera explicitly
+          { fps: 10, qrbox: 250 },
+          qrCodeMessage => {
+            qrReader.stop().then(() => {
               document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
-              qrReader.stop().then(() => {
-                window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48";
-              });
-            },
-            error => {
-              console.warn("កំហុសក្នុងការស្កេន:", error);
-            }
-          );
-        } catch (e) {
+              window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48";
+            });
+          },
+          error => {
+            console.warn("កំហុសក្នុងការស្កេន:", error);
+          }
+        ).catch(e => {
           Swal.fire({
             icon: 'error',
             title: 'បរាជ័យក្នុងការចាប់កាមេរ៉ា',
-            text: 'សូមពិនិត្យថាអ្នកបានអនុញ្ញាត Camera នៅលើ Browser។'
+            text: 'សូមអនុញ្ញាត Camera នៅលើ Browser។'
           });
-        }
-      }, () => {
-        document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
-        document.getElementById("status").className = "status error";
+        });
+      }, error => {
         Swal.fire({
           icon: 'error',
           title: 'បរាជ័យក្នុងការចាប់ទីតាំង',
           text: 'សូមអនុញ្ញាត Location នៅលើ Browser របស់អ្នក។'
         });
+        document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
+        document.getElementById("status").className = "status error";
+      }, {
+        enableHighAccuracy: true,
+        timeout: 7000,
+        maximumAge: 0
       });
     }
-
-   window.onload = () => {
-  Swal.fire({
-    title: 'កំពុងពិនិត្យទីតាំង...',
-    text: 'សូមរងចាំ...',
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    }
-  });
-
-  navigator.geolocation.getCurrentPosition(position => {
-    const lat = position.coords.latitude;
-    const lng = position.coords.longitude;
-
-    if (!isInOfficeArea(lat, lng)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'ក្រៅតំបន់ការងារ!',
-        text: 'សូមនៅជិតទីតាំងការងារ។'
-      });
-      document.getElementById("status").innerHTML = "❌ អ្នកស្ថិតក្រៅតំបន់ការងារ!";
-      document.getElementById("status").className = "status error";
-    } else {
-      Swal.close(); // ✨ បិទ loading
-      document.getElementById("status").innerHTML = "✅ អ្នកនៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
-      document.getElementById("status").className = "status success";
-      startScanner(); // ✨ ចាប់ផ្ដើមស្កេនទៀត
-    }
-  }, () => {
-    Swal.fire({
-      icon: 'error',
-      title: 'មិនអាចចាប់ទីតាំងបាន!',
-      text: 'សូមអនុញ្ញាតឲ្យប្រើ Location នៅលើ Browser។'
-    });
-    document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
-    document.getElementById("status").className = "status error";
-  });
-};
-
   </script>
 </body>
 </html>
