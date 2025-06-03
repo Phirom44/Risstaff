@@ -8,92 +8,57 @@
   <link rel="apple-touch-icon" href="Logo1.PNG">
   <link rel="icon" href="Logo1.PNG" sizes="192x192" type="image/png">
   <meta name="theme-color" content="#1a73e8">
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Angkor&family=Bayon&family=Dangrek&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Moul&family=Suwannaphum:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Moul&family=Suwannaphum:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/html5-qrcode"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <style>
+    * { box-sizing: border-box; }
     body {
       font-family: 'Suwannaphum', serif;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       background: linear-gradient(to right, #f3f4f6, #e5e7eb);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      display: flex; justify-content: center; align-items: center;
       min-height: 100vh;
     }
-
     .container {
-      background: #ffff;
+      background: #fff;
       border-radius: 15px;
       padding: 30px;
-      max-width: 500px;
-      width: 90%;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.479);
+      max-width: 500px; width: 90%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
       text-align: center;
-      margin-top: 10px;
-      margin-bottom: 10px;
     }
-    
-    p {
-      font-family: "Moul", serif;
-      font-weight: 400;
-      font-style: normal;
-      margin-top: 0%;
-      color: #0d3896;
-      margin-bottom: 0%;
-    }
-    
-    .R {
-      margin-bottom: 10px;
-      color: #f00619;
-    }
-    
     img.logo {
-      width: 100px;
-      height: auto;
-      margin-bottom: 5px;
+      width: 100px; margin-bottom: 5px;
     }
-
+    p {
+      font-family: 'Moul', serif;
+      color: #0d3896; margin: 0;
+    }
+    .R { color: #f00619; margin-bottom: 10px; }
     h1 {
       font-family: 'Bayon', sans-serif;
       color: #1f2937;
-      margin-top: 0%;
-      margin-bottom: 20px;
     }
-
     #qr-reader {
-      width: 80%;
-      min-height: 200px;
+      width: 100%; min-height: 250px;
       border: 2px dashed #9ca3af;
       border-radius: 10px;
-      margin: 0 auto 15px;
+      margin-bottom: 15px;
     }
-
     .status {
       margin-top: 10px;
       font-size: 1.1rem;
       font-weight: bold;
     }
-
-    .error {
-      color: #dc2626;
-    }
-
-    .success {
-      color: #16a34a;
-    }
-
+    .error { color: #dc2626; }
+    .success { color: #16a34a; }
     button {
-      margin-top: 10px;
       font-family: 'Suwannaphum', serif;
-      font-weight: bold;
+      margin-top: 10px;
       padding: 10px 20px;
       font-size: 1rem;
       color: white;
@@ -103,165 +68,9 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-
-    button:hover {
-      background-color: #1d4ed8;
-    }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 1.3rem;
-      }
-      p {
-        font-family: "Moul", serif;
-        font-weight: 400;
-        font-style: normal;
-        margin-top: 0%;
-        color: #0d3896;
-        margin-bottom: 0%;
-      }
-      
-      .container {
-        background: #ffff;
-        border-radius: 15px;
-        padding: 15px;
-        max-width: 500px;
-        width: 90%;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.479);
-        text-align: center;
-      }
-      
-      .R {
-        margin-bottom: 10px;
-        color: #f00619;
-      }
-      
-      button {
-        font-size: 0.95rem;
-      }
-      
-      #qr-reader {
-        width: 90%;
-        min-height: 180px;
-      }
-    }
-    
-    .credit {
-      margin-top: 15px;
-      font-size: 13px;
-      color: #aaa;
-    }
-    
-    .back {
-      background-color: #dc2626;
-      margin-left: 10px;
-    }
-    
-    .loading {
-      display: inline-block;
-      margin-left: 5px;
-    }
-    
-    .loading:after {
-      content: '...';
-      animation: dots 1.5s steps(5, end) infinite;
-    }
-    
-    @keyframes dots {
-      0%, 20% {
-        content: '.';
-      }
-      40% {
-        content: '..';
-      }
-      60%, 100% {
-        content: '...';
-      }
-    }
-    
-    #loading {
-      display: none;
-      margin-top: 15px;
-    }
-    
-    .spinner {
-      width: 40px;
-      height: 40px;
-      margin: 0 auto;
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-radius: 50%;
-      border-top-color: #2563eb;
-      animation: spin 1s ease-in-out infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Notification Popup Style */
-    .notification {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #fff;
-      padding: 15px 25px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      animation: slideIn 0.5s ease-out;
-      border-left: 5px solid #dc2626;
-    }
-    
-    .notification.success {
-      border-left-color: #16a34a;
-    }
-    
-    .notification.error {
-      border-left-color: #dc2626;
-    }
-    
-    .notification-icon {
-      margin-right: 15px;
-      font-size: 24px;
-    }
-    
-    .notification-content {
-      flex: 1;
-      text-align: left;
-    }
-    
-    .notification-title {
-      font-weight: bold;
-      margin-bottom: 5px;
-      font-family: 'Bayon', sans-serif;
-    }
-    
-    .notification-message {
-      font-size: 0.9rem;
-    }
-    
-    @keyframes slideIn {
-      from {
-        top: -100px;
-        opacity: 0;
-      }
-      to {
-        top: 20px;
-        opacity: 1;
-      }
-    }
-    
-    @keyframes fadeOut {
-      from {
-        opacity: 1;
-      }
-      to {
-        opacity: 0;
-      }
-    }
+    button:hover { background-color: #1d4ed8; }
+    .back { background-color: #dc2626; }
+    .credit { margin-top: 15px; font-size: 13px; color: #aaa; }
   </style>
 </head>
 <body>
@@ -271,148 +80,131 @@
     <p class="R">Riverland International School</p>
     <h1>📲 ស្កេនវត្តមាន</h1>
     <div id="qr-reader"></div>
-    <div id="status" class="status">📍 កំពុងពិនិត្យទីតាំង<span class="loading"></span></div>
-    <div id="loading">
-      <div class="spinner"></div>
-    </div>
-    <button onclick="startScanner()" id="scanBtn" style="display:none;">ចាប់ផ្ដើមស្កេន</button>
+    <div id="status" class="status">📍 កំពុងត្រួតពិនិត្យទីតាំង...</div>
+    <button onclick="startScanner()">ចាប់ផ្ដើមស្កេន</button>
     <button onclick="goBack()" class="back">ត្រឡប់ក្រោយ</button>
     <div class="credit">Create by SREAN Phirom</div>
   </div>
 
   <script>
-    // កំណត់ទីតាំងដែលអនុញ្ញាត
-    const allowedLocations = [
-      { lat: 12.7799064, lng: 105.9657238, name: "ទីតាំងដើម" },
-      { lat: 12.77276, lng: 105.96603, name: "ទីតាំងថ្មី" }
+    const officeLocations = [
+      { lat: 12.7798001, lng: 105.9658136 },
+      { lat: 12.77276, lng: 105.96603 }
     ];
-    
-    const allowedRadius = 0.1; // ចម្ងាយអនុញ្ញាត (គីឡូម៉ែត្រ)
-    let qrReader = null;
+    const allowedRadius = 0.1;
 
     function distance(lat1, lon1, lat2, lon2) {
       const R = 6371;
       const dLat = (lat2 - lat1) * Math.PI / 180;
       const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      const a = Math.sin(dLat/2) ** 2 +
                 Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
+                Math.sin(dLon/2) ** 2;
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
       return R * c;
     }
-    
+
+    function isInOfficeArea(userLat, userLng) {
+      return officeLocations.some(loc =>
+        distance(userLat, userLng, loc.lat, loc.lng) <= allowedRadius
+      );
+    }
+
     function goBack() {
-      if(qrReader) {
-        qrReader.stop().catch(err => console.error(err));
-      }
       window.location.href = "index.html";
     }
 
-    function checkLocation(lat, lng) {
-      for (const location of allowedLocations) {
-        const dist = distance(lat, lng, location.lat, location.lng);
-        if (dist <= allowedRadius) {
-          return { allowed: true, name: location.name };
-        }
-      }
-      return { allowed: false };
-    }
-
-    // បង្ហាញ Notification
-    function showNotification(type, title, message) {
-      const notification = document.createElement('div');
-      notification.className = `notification ${type}`;
-      notification.innerHTML = `
-        <div class="notification-icon">${type === 'success' ? '✅' : '❌'}</div>
-        <div class="notification-content">
-          <div class="notification-title">${title}</div>
-          <div class="notification-message">${message}</div>
-        </div>
-      `;
-      
-      document.body.appendChild(notification);
-      
-      // លុប Notification បន្ទាប់ពី 5វិនាទី
-      setTimeout(() => {
-        notification.style.animation = 'fadeOut 0.5s ease-out';
-        setTimeout(() => {
-          notification.remove();
-        }, 500);
-      }, 5000);
-    }
-
     function startScanner() {
-      document.getElementById('status').innerHTML = "✅ អ្នកនៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
-      document.getElementById('status').className = "status success";
-      document.getElementById('scanBtn').style.display = 'none';
-      document.getElementById('loading').style.display = 'none';
-
-      qrReader = new Html5Qrcode("qr-reader");
-      qrReader.start(
-        { facingMode: "environment" },
-        { fps: 30, qrbox: 200 },
-        qrCodeMessage => {
-          document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
-          document.getElementById("status").className = "status success";
-          showNotification('success', 'ស្កេនជោគជ័យ', 'អ្នកបានស្កេនវត្តមានដោយជោគជ័យ!');
-          qrReader.stop().then(() => {
-            window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48";
-          }).catch(err => console.error("Stop error:", err));
-        },
-        error => {
-          console.debug("QR Scanner error:", error);
-        }
-      ).catch(err => {
-        console.error("Failed to start scanner:", err);
-        document.getElementById('status').innerHTML = "❌ មិនអាចចាប់ផ្តើមកាមេរ៉ាបាន!";
-        document.getElementById('status').className = "status error";
-        document.getElementById('scanBtn').style.display = 'block';
-      });
-    }
-
-    // ពិនិត្យទីតាំងស្វ័យប្រវត្តិនៅពេលទំព័រផ្ទុក
-    window.onload = function() {
-      document.getElementById('loading').style.display = 'block';
-      
       navigator.geolocation.getCurrentPosition(position => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
-        const locationCheck = checkLocation(lat, lng);
 
-        document.getElementById('loading').style.display = 'none';
-        
-        if (locationCheck.allowed) {
-          document.getElementById('status').innerHTML = `✅ អ្នកនៅក្នុងតំបន់ការងារ (${locationCheck.name})។ កំពុងចាប់ផ្តើមស្កេន...`;
-          document.getElementById('status').className = "status success";
-          startScanner();
-        } else {
-          document.getElementById('status').innerHTML = "❌ អ្នកស្ថិតក្រៅតំបន់ការងារ!";
-          document.getElementById('status').className = "status error";
-          document.getElementById('scanBtn').style.display = 'block';
-          
-          // បង្ហាញ Notification នៅពេលនៅក្រៅតំបន់ការងារ
-          showNotification(
-            'error', 
-            'ការជូនដំណឹង', 
-            'អ្នកស្ថិតនៅក្រៅតំបន់ការងារ! សូមធ្វើការស្កេននៅក្នុងតំបន់ដែលបានកំណត់។'
-          );
+        if (!isInOfficeArea(lat, lng)) {
+          document.getElementById("status").innerHTML = "❌ អ្នកស្ថិតក្រៅតំបន់ការងារ!";
+          document.getElementById("status").className = "status error";
+          Swal.fire({
+            icon: 'error',
+            title: 'ក្រៅតំបន់ការងារ!',
+            text: 'សូមមេត្តាចូលមកក្នុងតំបន់ការងារដើម្បីស្កេនវត្តមាន។'
+          });
+          return;
         }
-      }, error => {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('status').innerText = "❌ មិនអាចចាប់ទីតាំងបាន! សូមព្យាយាមម្តងទៀត";
-        document.getElementById('status').className = "status error";
-        document.getElementById('scanBtn').style.display = 'block';
-        
-        // បង្ហាញ Notification នៅពេលមិនអាចចាប់ទីតាំងបាន
-        showNotification(
-          'error', 
-          'ការជូនដំណឹង', 
-          'មិនអាចចាប់ទីតាំងបាន! សូមព្យាយាមម្តងទៀត។'
-        );
-      }, {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
+
+        document.getElementById("status").innerHTML = "✅ អ្នកនៅក្នុងតំបន់ការងារ។ សូមស្កេន...";
+        document.getElementById("status").className = "status success";
+
+        try {
+          const qrReader = new Html5Qrcode("qr-reader");
+          qrReader.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: 250 },
+            qrCodeMessage => {
+              document.getElementById("status").innerText = "✅ ស្កេនជោគជ័យ!";
+              qrReader.stop().then(() => {
+                window.location.href = "https://forms.gle/VzJkUtFtwmsksSa48";
+              });
+            },
+            error => {
+              console.warn("កំហុសក្នុងការស្កេន:", error);
+            }
+          );
+        } catch (e) {
+          Swal.fire({
+            icon: 'error',
+            title: 'បរាជ័យក្នុងការចាប់កាមេរ៉ា',
+            text: 'សូមពិនិត្យថាអ្នកបានអនុញ្ញាត Camera នៅលើ Browser។'
+          });
+        }
+      }, () => {
+        document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
+        document.getElementById("status").className = "status error";
+        Swal.fire({
+          icon: 'error',
+          title: 'បរាជ័យក្នុងការចាប់ទីតាំង',
+          text: 'សូមអនុញ្ញាត Location នៅលើ Browser របស់អ្នក។'
+        });
+      });
+    }
+
+    window.onload = () => {
+      Swal.fire({
+        title: 'កំពុងពិនិត្យទីតាំង...',
+        text: 'សូមរងចាំ...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      navigator.geolocation.getCurrentPosition(position => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        if (!isInOfficeArea(lat, lng)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'ក្រៅតំបន់ការងារ!',
+            text: 'សូមនៅជិតទីតាំងការងារ។'
+          });
+          document.getElementById("status").innerHTML = "❌ អ្នកស្ថិតក្រៅតំបន់ការងារ!";
+          document.getElementById("status").className = "status error";
+        } else {
+          Swal.fire({
+            icon: 'success',
+            title: '✓ ត្រួតពិនិត្យទីតាំងជោគជ័យ',
+            text: 'អ្នកស្ថិតនៅក្នុងតំបន់ការងារ។'
+          });
+          document.getElementById("status").innerHTML = "✅ អ្នកនៅក្នុងតំបន់ការងារ។";
+          document.getElementById("status").className = "status success";
+        }
+      }, () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'មិនអាចចាប់ទីតាំងបាន!',
+          text: 'សូមអនុញ្ញាតឲ្យប្រើ Location នៅលើ Browser។'
+        });
+        document.getElementById("status").innerText = "❌ មិនអាចចាប់ទីតាំងបាន!";
+        document.getElementById("status").className = "status error";
       });
     };
   </script>
