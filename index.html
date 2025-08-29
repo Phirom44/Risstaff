@@ -1,151 +1,284 @@
 <!DOCTYPE html>
 <html lang="km">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RIS រីវើឡែនឌ៏</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="Logo1.PNG">
-  <link rel="icon" href="Logo1.PNG" sizes="192x192" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Angkor&family=Bayon&family=Dangrek&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Moul&family=Suwannaphum:wght@100;300;400;700;900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Noto Sans Khmer', sans-serif;
-      background: linear-gradient(to bottom right, #0f2027, #71c7e4, #2c5364);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>សេវាកម្មសាលា Riverland</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="Logo1.PNG" />
+    <link rel="icon" href="Logo1.PNG" sizes="192x192" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <!-- SweetAlert2 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans Khmer", sans-serif;
+        background: linear-gradient(to bottom right, #0f2027, #71c7e4, #2c5364);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-    .container {
-      background-color: #ffffff;
-      color: #142286;
-      width: 90%;
-      max-width: 400px;
-      border-radius: 15px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-      text-align: center;
-      padding: 30px 20px;
-      margin: 10px;
-    }
+      .container {
+        background-color: #ffffff;
+        color: #142286;
+        width: 90%;
+        max-width: 400px;
+        border-radius: 15px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        text-align: center;
+        padding: 30px 20px;
+        margin: 10px;
+      }
 
-    img {
-      width: 120px;
-      margin-bottom: 10px;
-    }
+      img {
+        width: 120px;
+        margin-bottom: 10px;
+      }
 
-    h1 {
-     font-size: 24px;
-      font-family: "Moul", serif;
-      color: #0d3896;
-      margin: 0;
-    }
+      h1 {
+        font-size: 24px;
+        font-family: "Moul", serif;
+        color: #0d3896;
+        margin: 0;
+      }
 
-    p {
-     font-size: 24px;
-      color: #ff4d4d;
-      font-family:'Times New Roman', Times, serif;
-      margin: 0 0 30px 0;
-    }
+      p {
+        font-size: 24px;
+        color: #ff4d4d;
+        font-family: "Times New Roman", Times, serif;
+        margin: 0 0 30px 0;
+      }
 
-    .button-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
+      .button-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
 
-    .digital-button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: linear-gradient(145deg, #004e92, #0a92d1);
-      color: #fff;
-      border: none;
-      border-radius: 20px;
-      width: 140px;
-      height: 140px;
-      font-size: 15px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      box-shadow: 0 8px 20px rgba(0, 114, 255, 0.4);
-    }
+      .digital-button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: linear-gradient(145deg, #004e92, #0a92d1);
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        width: 140px;
+        height: 140px;
+        font-size: 15px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        box-shadow: 0 8px 20px rgba(0, 114, 255, 0.4);
+      }
 
-    .digital-button:hover {
-      transform: translateY(-6px);
-      background: linear-gradient(145deg, #66e0f0, #04c0a1);
-      box-shadow: 0 12px 24px rgba(255, 75, 43, 0.5);
-    }
+      .digital-button:hover {
+        transform: translateY(-6px);
+        background: linear-gradient(145deg, #66e0f0, #04c0a1);
+        box-shadow: 0 12px 24px rgba(255, 75, 43, 0.5);
+      }
 
-    .icon {
-      font-size: 32px;
-    }
+      .icon {
+        font-size: 40px;
+      }
 
-    .credit {
-      margin-top: 15px;
-      font-size: 13px;
-      color: #aaa;
-    }
-    .icon {
-    font-size: 40px;
-  }
-    /* Media query for smaller screens */
-@media (max-width: 480px) {
-  h1 {
-    font-size: 24px;
-  }
+      .credit {
+        margin-top: 15px;
+        font-size: 13px;
+        color: #aaa;
+      }
 
-  p {
-    font-size: 24px;
-  }
-}
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 24px;
+        }
+        p {
+          font-size: 24px;
+        }
+      }
 
-/* Media query for larger screens */
-@media (min-width: 768px) {
-  h1 {
-    font-size: 28px;
-  }
+      @media (min-width: 768px) {
+        h1 {
+          font-size: 28px;
+        }
+        p {
+          font-size: 22px;
+        }
+      }
+      .smooth-gradient {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        background: linear-gradient(90deg, #ff4d4d, #4d79ff, #4dff88);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: simpleAnim 5s ease infinite;
+      }
+      @keyframes simpleAnim {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
 
-  p {
-    font-size: 22px;
-  }
-}
-  </style>
-</head>
-<body>
-  <div class="container">
-    <img src="Logo1.PNG" alt="Logo សាលា" />
-    <h1>សាលាអន្តរជាតិ​ រីវើឡែនឌ៏</h1>
-    <p>Riverland International School</p>
+      @keyframes smoothGradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
 
-    <div class="button-container">
-      <a href="scan.html" class="digital-button">
-        <i class="fas fa-qrcode icon"></i>
-        ស្កេន QR
-      </a>
-      <a href="https://forms.gle/Vy8tS9kn6CdXtQjh7" class="digital-button">
-        <i class="fas fa-file-signature icon"></i>
-        សុំច្បាប់
-      </a>
+      @keyframes neonAnim {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 100% 50%;
+        }
+      }
+      .credit {
+        font-family: "Rowdies", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+      }
+
+      .credit {
+        font-family: "Rowdies", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      .credit {
+        font-family: "Rowdies", sans-serif;
+        font-weight: 700;
+        font-style: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img src="Logo1.PNG" alt="Logo សាលា" />
+      <h1>សាលាអន្តរជាតិ​ រីវើឡែនឌ៏</h1>
+      <p>Riverland International School</p>
+
+      <div class="button-container">
+        <a href="scan.html" id="scanBtn" class="digital-button">
+          <i class="fas fa-qrcode icon"></i>
+          <span id="btnText">ស្កេន QR</span>
+        </a>
+        <a href="https://forms.gle/Vy8tS9kn6CdXtQjh7" class="digital-button">
+          <i class="fas fa-file-signature icon"></i>
+          សុំច្បាប់
+        </a>
+      </div>
+
+      <div class="credit smooth-gradient">Create by Srean Phirom</div>
     </div>
 
-    <div class="credit">Create by SREAN Phirom</div>
-  </div>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log("✅ Service Worker Registered"))
-        .catch(err => console.error("❌ Service Worker Failed", err));
-    }
-  </script>
-</body>
+    <script>
+      function updateButtonAndAlert() {
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const totalMinutes = hour * 60 + minute;
+
+        const scanButton = document.getElementById("scanBtn");
+        const btnText = document.getElementById("btnText");
+        const tardyFormUrl = "https://forms.gle/oYbGM2zYvVoTVC2eA";
+
+        let mode = "scan"; // "scan", "late", "closed"
+
+        if (totalMinutes >= 6 * 60 && totalMinutes <= 7 * 60 + 35) {
+          mode = "scan";
+        } else if (
+          totalMinutes >= 7 * 60 + 36 &&
+          totalMinutes <= 11 * 60 + 59
+        ) {
+          mode = "late";
+        } else if (totalMinutes >= 12 * 60 && totalMinutes <= 12 * 60 + 35) {
+          mode = "scan";
+        } else if (
+          totalMinutes >= 12 * 60 + 36 &&
+          totalMinutes <= 17 * 60 + 59
+        ) {
+          mode = "late";
+        } else {
+          mode = "closed";
+        }
+
+        if (mode === "scan") {
+          btnText.textContent = "ស្កេន QR";
+          scanButton.querySelector("i").className = "fas fa-qrcode icon";
+          scanButton.href = "scan.html";
+        } else if (mode === "late") {
+          btnText.textContent = "I'm Late";
+          scanButton.querySelector("i").className = "fas fa-clock icon";
+          scanButton.onclick = function (e) {
+            e.preventDefault();
+            Swal.fire({
+              title: "⏰ អ្នកបានមកយឺត!",
+              text: "សូមបំពេញបែបបទ I'm Late",
+              icon: "warning",
+              confirmButtonText: "OK",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = tardyFormUrl;
+              }
+            });
+          };
+        } else if (mode === "closed") {
+          btnText.textContent = "ក្រៅម៉ោងធ្វើការ";
+          scanButton.querySelector("i").className = "fas fa-ban icon";
+          scanButton.removeAttribute("href");
+
+          // Auto popup alert
+          Swal.fire({
+            title: "⏰ ក្រៅម៉ោងធ្វើការ",
+            text: "ស្កេនមិនអាចប្រើបានទេ",
+            icon: "info",
+            confirmButtonText: "OK",
+          });
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", updateButtonAndAlert);
+    </script>
+  </body>
 </html>
