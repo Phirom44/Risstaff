@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>សេវាកម្មសាលា Riverland</title>
+    <title>Riverland International School</title>
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="Logo1.PNG" />
     <link rel="icon" href="Logo1.PNG" sizes="192x192" type="image/png" />
@@ -11,9 +11,6 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer&display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Moul&family=Oleo+Script:wght@400;700&display=swap" rel="stylesheet">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -199,9 +196,13 @@
       <p>Riverland International School</p>
 
       <div class="button-container">
-        <a href="scan.html" id="scanBtn" class="digital-button">
-          <i class="fas fa-qrcode icon"></i>
-          <span id="btnText">ស្កេន QR</span>
+        <a
+          href="https://forms.gle/VzJkUtFtwmsksSa48"
+          id="scanBtn"
+          class="digital-button"
+        >
+          <i class="fas fa-user-check icon"></i>
+          ចុះវត្តមាន
         </a>
         <a href="https://forms.gle/Vy8tS9kn6CdXtQjh7" class="digital-button">
           <i class="fas fa-file-signature icon"></i>
@@ -215,80 +216,175 @@
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-   <script>
-  function updateButtonAndAlert() {
-    const now = new Date();
-    const hour = now.getHours();
-    const minute = now.getMinutes();
-    const totalMinutes = hour * 60 + minute;
+    <script>
+      function updateButtonAndAlert() {
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const totalMinutes = hour * 60 + minute;
 
-    const scanButton = document.getElementById("scanBtn");
-    const btnText = document.getElementById("btnText");
-    const tardyFormUrl = "https://forms.gle/oYbGM2zYvVoTVC2eA";
+        const scanButton = document.getElementById("scanBtn");
+        const btnText = document.getElementById("btnText");
+        const tardyFormUrl = "https://forms.gle/oYbGM2zYvVoTVC2eA";
 
-    let mode = "scan"; // "scan", "late", "closed"
+        let mode = "scan"; // "scan", "late", "closed"
 
-    // Morning
-    if (totalMinutes >= 6*60 && totalMinutes <= 7*60+35) { // 6:00 - 7:35
-      mode = "scan";
-    } else if (totalMinutes >= 7*60+36 && totalMinutes <= 9*60+59) { // 7:36 - 9:59
-      mode = "late";
-    } else if (totalMinutes >= 10*60 && totalMinutes <= 11*60+59) { // 10:00 - 11:59
-      mode = "scan";
-    }
-    // Afternoon
-    else if (totalMinutes >= 12*60 && totalMinutes <= 13*60+35) { // 12:00 - 13:35
-      mode = "scan";
-    } else if (totalMinutes >= 13*60+36 && totalMinutes <= 14*60+59) { // 13:36 - 14:59
-      mode = "late";
-    } else if (totalMinutes >= 15*60 && totalMinutes <= 17*60+59) { // 15:00 - 17:59
-      mode = "scan";
-    } else { // 18:00 - 5:59
-      mode = "closed";
-    }
+        // Morning
+        if (totalMinutes >= 6 * 60 && totalMinutes <= 7 * 60 + 35) {
+          // 6:00 - 7:35
+          mode = "scan";
+        } else if (totalMinutes >= 7 * 60 + 36 && totalMinutes <= 9 * 60 + 59) {
+          // 7:36 - 9:59
+          mode = "late";
+        } else if (totalMinutes >= 10 * 60 && totalMinutes <= 11 * 60 + 59) {
+          // 10:00 - 11:59
+          mode = "scan";
+        }
+        // Afternoon
+        else if (totalMinutes >= 12 * 60 && totalMinutes <= 13 * 60 + 35) {
+          // 12:00 - 13:35
+          mode = "scan";
+        } else if (
+          totalMinutes >= 13 * 60 + 36 &&
+          totalMinutes <= 14 * 60 + 59
+        ) {
+          // 13:36 - 14:59
+          mode = "late";
+        } else if (totalMinutes >= 15 * 60 && totalMinutes <= 17 * 60 + 59) {
+          // 15:00 - 17:59
+          mode = "scan";
+        } else {
+          // 18:00 - 5:59
+          mode = "closed";
+        }
+        // Apply mode
+        if (mode === "scan") {
+          btnText.textContent = "ស្កេន QR";
+          scanButton.querySelector("i").className = "fas fa-qrcode icon";
+          scanButton.href = "scan.html";
+          scanButton.onclick = null;
+        } else if (mode === "late") {
+          btnText.textContent = "I'm Late";
+          scanButton.querySelector("i").className = "fas fa-clock icon";
+          scanButton.onclick = function (e) {
+            e.preventDefault();
+            Swal.fire({
+              title: "⏰ អ្នកបានមកយឺត!",
+              text: "សូមបំពេញបែបបទ I'm Late",
+              icon: "warning",
+              confirmButtonText: "OK",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = tardyFormUrl;
+              }
+            });
+          };
+        } else if (mode === "closed") {
+          btnText.textContent = "ក្រៅម៉ោងធ្វើការ";
+          scanButton.querySelector("i").className = "fas fa-ban icon";
+          scanButton.removeAttribute("href");
+          scanButton.onclick = null;
 
-    // Apply mode
-    if (mode === "scan") {
-      btnText.textContent = "ស្កេន QR";
-      scanButton.querySelector("i").className = "fas fa-qrcode icon";
-      scanButton.href = "scan.html";
-      scanButton.onclick = null;
-    } else if (mode === "late") {
-      btnText.textContent = "I'm Late";
-      scanButton.querySelector("i").className = "fas fa-clock icon";
-      scanButton.onclick = function(e) {
-        e.preventDefault();
+          // Auto popup alert
+          Swal.fire({
+            title: "⏰ ក្រៅម៉ោងធ្វើការ",
+            text: "ស្កេនមិនអាចប្រើបានទេ",
+            icon: "info",
+            confirmButtonText: "OK",
+          });
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", updateButtonAndAlert);
+
+      const officeLocations = [
+        { lat: 12.779906, lng: 105.965723 },
+        { lat: 12.77276, lng: 105.96603 },
+      ];
+
+      const allowedRadius = 0.1; // km
+
+      function distance(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+        const dLat = ((lat2 - lat1) * Math.PI) / 180;
+        const dLon = ((lon2 - lon1) * Math.PI) / 180;
+        const a =
+          Math.sin(dLat / 2) ** 2 +
+          Math.cos((lat1 * Math.PI) / 180) *
+            Math.cos((lat2 * Math.PI) / 180) *
+            Math.sin(dLon / 2) ** 2;
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+      }
+
+      function isInOfficeArea(userLat, userLng) {
+        return officeLocations.some(
+          (loc) => distance(userLat, userLng, loc.lat, loc.lng) <= allowedRadius
+        );
+      }
+
+      function startCheckLocation() {
         Swal.fire({
-          title: "⏰ អ្នកបានមកយឺត!",
-          text: "សូមបំពេញបែបបទ I'm Late",
-          icon: "warning",
-          confirmButtonText: "OK"
-        }).then(result => {
-          if (result.isConfirmed) {
-            window.location.href = tardyFormUrl;
-          }
+          title: "កំពុងពិនិត្យទីតាំង...",
+          text: "សូមរងចាំ...",
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading(),
         });
-      };
-    } else if (mode === "closed") {
-      btnText.textContent = "ក្រៅម៉ោងធ្វើការ";
-      scanButton.querySelector("i").className = "fas fa-ban icon";
-      scanButton.removeAttribute("href");
-      scanButton.onclick = null;
 
-      // Auto popup alert
-      Swal.fire({
-        title: "⏰ ក្រៅម៉ោងធ្វើការ",
-        text: "ស្កេនមិនអាចប្រើបានទេ",
-        icon: "info",
-        confirmButtonText: "OK"
-      });
-    }
-  }
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
 
-  document.addEventListener("DOMContentLoaded", updateButtonAndAlert);
-</script>
+            if (!isInOfficeArea(lat, lng)) {
+              Swal.fire({
+                icon: "error",
+                title: "ក្រៅតំបន់ការងារ!",
+                html: `
+            <b>Latitude:</b> ${lat}<br>
+            <b>Longitude:</b> ${lng}<br><br>
+            ❌ មិនអាចចុះវត្តមានក្រៅតំបន់បានទេ!
+          `,
+              });
+
+              document.getElementById("status").innerHTML =
+                "❌ ក្រៅតំបន់ការងារ";
+              document.getElementById("status").style.color = "red";
+
+              return;
+            }
+
+            // Inside office → Enable Attendance Button
+            Swal.fire({
+              icon: "success",
+              title: "📍 ទីតាំងត្រឹមត្រូវ!",
+              html: `
+          <b>Latitude:</b> ${lat}<br>
+          <b>Longitude:</b> ${lng}<br><br>
+          ✓ អ្នកអាចចុះវត្តមានបានហើយ
+        `,
+              confirmButtonText: "OK",
+            });
+
+            document.getElementById("status").innerHTML =
+              "✔ នៅក្នុងតំបន់ការងារ — អាចចុះវត្តមាន";
+            document.getElementById("status").style.color = "green";
+
+            const btn = document.getElementById("attendanceBtn");
+            btn.disabled = false;
+            btn.style.background = "#0a8dff";
+            btn.style.color = "white";
+          },
+
+          (error) => {
+            Swal.fire({
+              icon: "warning",
+              title: "មិនអាចចាប់ទីតាំងបាន!",
+              text: "សូមបើក Location (GPS) មុន!",
+            });
+          }
+        );
+      }
+    </script>
   </body>
 </html>
-
-
-
