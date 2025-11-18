@@ -4,29 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Riverland International School</title>
-    <link rel="manifest" href="manifest.json" />
-    <link rel="apple-touch-icon" href="Logo1.PNG" />
-    <link rel="icon" href="Logo1.PNG" sizes="192x192" type="image/png" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer&display=swap"
-      rel="stylesheet"
-    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <!-- SweetAlert2 CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet"
-    />
-    <link href="https://fonts.googleapis.com/css2?family=Moul&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Moul&display=swap" rel="stylesheet">
 
     <style>
       body {
@@ -39,9 +25,8 @@
         justify-content: center;
         align-items: center;
       }
-
       .container {
-        background-color: #ffffff;
+        background: #fff;
         color: #142286;
         width: 90%;
         max-width: 400px;
@@ -49,35 +34,28 @@
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
         text-align: center;
         padding: 30px 20px;
-        margin: 10px;
       }
-
       img {
         width: 120px;
         margin-bottom: 10px;
       }
-
       h1 {
         font-size: 24px;
         font-family: "Moul", serif;
         color: #0d3896;
         margin: 0;
       }
-
       p {
         font-size: 24px;
         color: #ff4d4d;
-        font-family: "Times New Roman", Times, serif;
         margin: 0 0 30px 0;
       }
-
       .button-container {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         gap: 20px;
       }
-
       .digital-button {
         display: flex;
         flex-direction: column;
@@ -96,98 +74,19 @@
         transition: transform 0.25s ease, box-shadow 0.25s ease;
         box-shadow: 0 8px 20px rgba(0, 114, 255, 0.4);
       }
-
       .digital-button:hover {
         transform: translateY(-6px);
         background: linear-gradient(145deg, #66e0f0, #04c0a1);
         box-shadow: 0 12px 24px rgba(255, 75, 43, 0.5);
       }
-
       .icon {
         font-size: 40px;
       }
-
       .credit {
         margin-top: 20px;
         font-size: 13px;
         color: #aaa;
-      }
-
-      @media (max-width: 480px) {
-        h1 {
-          font-size: 24px;
-        }
-        p {
-          font-size: 24px;
-        }
-      }
-
-      @media (min-width: 768px) {
-        h1 {
-          font-size: 28px;
-        }
-        p {
-          font-size: 22px;
-        }
-      }
-      .smooth-gradient {
-        font-size: 16px;
-        font-weight: bold;
-        text-align: center;
-        background: linear-gradient(90deg, #ff4d4d, #4d79ff, #4dff88);
-        background-size: 200% 200%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: simpleAnim 5s ease infinite;
-      }
-      @keyframes simpleAnim {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-
-      @keyframes smoothGradient {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-
-      @keyframes neonAnim {
-        0% {
-          background-position: 0% 50%;
-        }
-        100% {
-          background-position: 100% 50%;
-        }
-      }
-      .credit {
         font-family: "Rowdies", sans-serif;
-        font-weight: 300;
-        font-style: normal;
-      }
-
-      .credit {
-        font-family: "Rowdies", sans-serif;
-        font-weight: 400;
-        font-style: normal;
-      }
-
-      .credit {
-        font-family: "Rowdies", sans-serif;
-        font-weight: 700;
-        font-style: normal;
       }
     </style>
   </head>
@@ -198,11 +97,7 @@
       <p>Riverland International School</p>
 
       <div class="button-container">
-        <a
-          href="https://forms.gle/VzJkUtFtwmsksSa48"
-          id="scanBtn"
-          class="digital-button"
-        >
+        <a href="#" id="attendanceBtn" class="digital-button">
           <i class="fas fa-user-check icon"></i>
           ចុះវត្តមាន
         </a>
@@ -212,93 +107,91 @@
         </a>
       </div>
 
-      <div class="credit smooth-gradient">Created by Srean Phirom</div>
+      <div class="credit">Created by Srean Phirom</div>
     </div>
 
-    <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script>
-      function updateAttendanceButton() {
+      const normalForm = "https://forms.gle/VzJkUtFtwmsksSa48";
+      const lateForm = "https://forms.gle/oYbGM2zYvVoTVC2eA";
+
+      function getAttendanceFormByTime() {
         const now = new Date();
-        const hour = now.getHours();
-        const minute = now.getMinutes();
-        const totalMinutes = hour * 60 + minute;
+        const minutes = now.getHours() * 60 + now.getMinutes();
 
-        const normalForm = "https://forms.gle/VzJkUtFtwmsksSa48"; // Form ចុះវត្តមានធម្មតា
-        const lateForm = "https://forms.gle/oYbGM2zYvVoTVC2eA"; // Form I'm Late
-
-        const scanButton = document.getElementById("scanBtn");
-
-        // ---------------------------------------------------------
-        // 🕒 កំណត់ម៉ោងធ្វើការ
-        // Morning:
-        //     6:00–7:35  → Normal
-        //     7:36–9:59 → Late
-        //     10:00–11:59 → Normal
-        //
-        // Afternoon:
-        //     12:00–13:35 → Normal
-        //     13:36–14:59 → Late
-        //     15:00–17:59 → Normal
-        //
-        // Others = Closed
-        // ---------------------------------------------------------
-
-        let mode = "closed";
-
-        if (totalMinutes >= 6 * 60 && totalMinutes <= 7 * 60 + 35) {
-          mode = "normal";
-        } else if (totalMinutes >= 7 * 60 + 36 && totalMinutes <= 9 * 60 + 59) {
-          mode = "late";
-        } else if (totalMinutes >= 10 * 60 && totalMinutes <= 11 * 60 + 59) {
-          mode = "normal";
-        } else if (totalMinutes >= 12 * 60 && totalMinutes <= 13 * 60 + 35) {
-          mode = "normal";
-        } else if (
-          totalMinutes >= 13 * 60 + 36 &&
-          totalMinutes <= 14 * 60 + 59
-        ) {
-          mode = "late";
-        } else if (totalMinutes >= 15 * 60 && totalMinutes <= 17 * 60 + 59) {
-          mode = "normal";
-        } else {
-          mode = "closed";
-        }
-
-        // ---------------------------------------------------------
-        // Apply behavior
-        // ---------------------------------------------------------
-
-        if (mode === "normal") {
-          scanButton.href = normalForm;
-          scanButton.onclick = null;
-        } else if (mode === "late") {
-          scanButton.onclick = function (e) {
-            e.preventDefault();
-            Swal.fire({
-              title: "⏰ មកយឺត!",
-              text: "សូមបំពេញបែបបទ I'm Late",
-              icon: "warning",
-              confirmButtonText: "OK",
-            }).then(() => (window.location.href = lateForm));
-          };
-        } else if (mode === "closed") {
-          scanButton.onclick = function (e) {
-            e.preventDefault();
-            Swal.fire({
-              title: "⏰ ក្រៅម៉ោងធ្វើការ!",
-              text: "មិនអាចចុះវត្តមានបានទេ",
-              icon: "error",
-              confirmButtonText: "OK",
-            });
-          };
-          scanButton.removeAttribute("href");
-        }
+        // Morning
+        if (minutes >= 360 && minutes <= 455) return "normal"; // 6:00-7:35
+        if (minutes >= 456 && minutes <= 599) return "late"; // 7:36-9:59
+        if (minutes >= 600 && minutes <= 719) return "normal"; //10:00-11:59
+        // Afternoon
+        if (minutes >= 720 && minutes <= 815) return "normal"; //12:00-13:35
+        if (minutes >= 816 && minutes <= 899) return "late"; //13:36-14:59
+        if (minutes >= 900 && minutes <= 1079) return "normal"; //15:00-17:59
+        return "closed";
       }
 
-      document.addEventListener("DOMContentLoaded", updateAttendanceButton);
+      document
+        .getElementById("attendanceBtn")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Check GPS permission
+          navigator.permissions
+            .query({ name: "geolocation" })
+            .then(function (result) {
+              if (result.state === "denied") {
+                Swal.fire(
+                  "❌ GPS Disabled",
+                  "សូមបើក Location នៅ browser",
+                  "error"
+                );
+                return;
+              }
+
+              Swal.fire({
+                title: "កំពុងចាប់ទីតាំង...",
+                text: "សូមរងចាំ...",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading(),
+              });
+
+              navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                  Swal.close();
+                  const lat = pos.coords.latitude;
+                  const lng = pos.coords.longitude;
+
+                  const mode = getAttendanceFormByTime();
+
+                  if (mode === "normal") {
+                    window.location.href = normalForm;
+                  } else if (mode === "late") {
+                    Swal.fire({
+                      title: "⏰ មកយឺត!",
+                      text: "សូមបំពេញបែបបទ I'm Late",
+                      icon: "warning",
+                      confirmButtonText: "OK",
+                    }).then(() => (window.location.href = lateForm));
+                  } else {
+                    Swal.fire({
+                      title: "⏰ ក្រៅម៉ោងធ្វើការ!",
+                      text: "មិនអាចចុះវត្តមានបានទេ",
+                      icon: "error",
+                      confirmButtonText: "OK",
+                    });
+                  }
+                },
+                (err) => {
+                  Swal.fire(
+                    "⚠️ មិនអាចចាប់ទីតាំងបាន!",
+                    "សូមព្យាយាមម្តងទៀត",
+                    "warning"
+                  );
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+              );
+            });
+        });
     </script>
   </body>
 </html>
-
