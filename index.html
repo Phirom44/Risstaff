@@ -1,197 +1,462 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="km">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Riverland International School</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer&family=Moul&display=swap"
+      rel="stylesheet"
+    />
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
-    />
-<link href="https://fonts.googleapis.com/css2?family=Moul&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-      body {
+      * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
         font-family: "Noto Sans Khmer", sans-serif;
-        background: linear-gradient(to bottom right, #0f2027, #71c7e4, #2c5364);
         min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 20px;
+
+        background: linear-gradient(135deg, #0f172a, #1e3a8a, #06b6d4);
+
+        background-size: 300% 300%;
+        animation: bgMove 15s ease infinite;
       }
+
+      @keyframes bgMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
       .container {
-        background: #fff;
-        color: #142286;
-        width: 90%;
-        max-width: 400px;
-        border-radius: 15px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        width: 100%;
+        max-width: 430px;
+
+        background: rgba(255, 255, 255, 0.15);
+
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+
+        border: 1px solid rgba(255, 255, 255, 0.25);
+
+        border-radius: 30px;
+
+        padding: 25px;
+
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+
         text-align: center;
-        padding: 30px 20px;
+        color: white;
       }
-      img {
+
+      .logo {
         width: 120px;
         margin-bottom: 10px;
+        animation: float 3s ease-in-out infinite;
       }
-      h1 {
-        font-size: 24px;
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .kh-name {
         font-family: "Moul", serif;
-        color: #0d3896;
-        margin: 0;
+        font-size: 22px;
+        line-height: 1.6;
       }
-      p {
-        font-size: 24px;
-        color: #ff4d4d;
-        margin: 0 0 30px 0;
+
+      .en-name {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 8px;
+        color: #ffdd57;
       }
-      .button-container {
+
+      .clock {
+        font-size: 34px;
+        font-weight: bold;
+        margin-top: 15px;
+      }
+
+      .date {
+        margin-top: 5px;
+        font-size: 16px;
+        opacity: 0.9;
+      }
+
+      .status-card {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .status-title {
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+
+      #status {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .buttons {
         display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 20px;
+        gap: 15px;
+        margin-top: 20px;
       }
-      .digital-button {
+
+      .btn {
+        flex: 1;
+        height: 130px;
+
+        border: none;
+        border-radius: 25px;
+
+        text-decoration: none;
+        color: white;
+
         display: flex;
         flex-direction: column;
-        align-items: center;
         justify-content: center;
-        gap: 10px;
-        background: linear-gradient(145deg, #004e92, #0a92d1);
-        color: #fff;
-        border: none;
-        border-radius: 20px;
-        width: 140px;
-        height: 140px;
+        align-items: center;
+
         font-size: 15px;
         font-weight: bold;
-        text-decoration: none;
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-        box-shadow: 0 8px 20px rgba(0, 114, 255, 0.4);
+
+        transition: 0.3s;
       }
-      .digital-button:hover {
-        transform: translateY(-6px);
-        background: linear-gradient(145deg, #66e0f0, #04c0a1);
-        box-shadow: 0 12px 24px rgba(255, 75, 43, 0.5);
+
+      .btn i {
+        font-size: 42px;
+        margin-bottom: 10px;
       }
-      .icon {
-        font-size: 40px;
+
+      .btn:hover {
+        transform: translateY(-8px);
       }
+
+      .attendance {
+        background: linear-gradient(135deg, #2563eb, #06b6d4);
+      }
+
+      .leave {
+        background: linear-gradient(135deg, #10b981, #34d399);
+      }
+
+      .disabled {
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
+      .red-danger {
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+      }
+
       .credit {
-        margin-top: 20px;
+        margin-top: 25px;
         font-size: 13px;
-        color: #aaa;
-        font-family: "Rowdies", sans-serif;
+        opacity: 0.9;
+      }
+
+      .version {
+        font-size: 12px;
+        margin-top: 5px;
+        color: #ffd700;
+      }
+
+      .loader {
+        width: 35px;
+        height: 35px;
+
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+
+        border-radius: 50%;
+        margin: auto;
+
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .btn {
+        flex: 1;
+        height: 120px;
+        min-width: 0;
+      }
+
+      @media (max-width: 480px) {
+        .btn {
+          height: 95px;
+          font-size: 12px;
+        }
+
+        .btn i {
+          font-size: 28px;
+          margin-bottom: 6px;
+        }
       }
     </style>
   </head>
+
   <body>
     <div class="container">
-      <img src="Logo1.PNG" alt="Logo សាលា" />
-      <h1>សាលាអន្តរជាតិ​ រីវើឡែនឌ៏</h1>
-      <p>Riverland International School</p>
+      <img src="Logo1.PNG" class="logo" />
 
-      <div class="button-container">
-        <a href="#" id="attendanceBtn" class="digital-button">
-          <i class="fas fa-user-check icon"></i>
-          ចុះវត្តមាន
+      <div class="kh-name">សាលាអន្តរជាតិ រីវើឡែនឌ៍</div>
+
+      <div class="en-name">Riverland International School</div>
+
+      <div class="clock" id="clock">00:00:00</div>
+
+      <div class="date" id="date">Loading...</div>
+
+      <div class="status-card">
+        <div class="status-title">📍 GPS Status</div>
+
+        <div class="loader" id="loader"></div>
+
+        <div id="status">កំពុងពិនិត្យទីតាំង...</div>
+      </div>
+
+      <div class="buttons">
+        <a href="#" id="scanBtn" class="btn attendance disabled">
+          <i class="fas fa-user-check"></i>
+
+          <span id="btnText"> ចុះវត្តមាន </span>
         </a>
-        <a href="https://forms.gle/Vy8tS9kn6CdXtQjh7" class="digital-button">
-          <i class="fas fa-file-signature icon"></i>
+
+        <a href="https://forms.gle/Vy8tS9kn6CdXtQjh7" class="btn leave">
+          <i class="fas fa-file-signature"></i>
+
           សុំច្បាប់
         </a>
       </div>
 
       <div class="credit">Created by Srean Phirom</div>
+
+      <div class="version">Version 2.0</div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-      const normalForm = "https://forms.gle/VzJkUtFtwmsksSa48";
-      const lateForm = "https://forms.gle/oYbGM2zYvVoTVC2eA";
+      /* CLOCK */
 
-      function getAttendanceFormByTime() {
+      function updateClock() {
         const now = new Date();
-        const minutes = now.getHours() * 60 + now.getMinutes();
 
-        // Morning
-        if (minutes >= 360 && minutes <= 455) return "normal"; // 6:00-7:35
-        if (minutes >= 456 && minutes <= 599) return "late"; // 7:36-9:59
-        if (minutes >= 600 && minutes <= 719) return "normal"; //10:00-11:59
-        // Afternoon
-        if (minutes >= 720 && minutes <= 815) return "normal"; //12:00-13:35
-        if (minutes >= 816 && minutes <= 899) return "late"; //13:36-14:59
-        if (minutes >= 900 && minutes <= 1079) return "normal"; //15:00-17:59
+        document.getElementById("clock").innerHTML =
+          now.toLocaleTimeString("en-US");
+
+        document.getElementById("date").innerHTML = now.toLocaleDateString(
+          "en-GB",
+          {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          },
+        );
+      }
+
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      /* GPS CONFIG */
+
+      const WORK_LOCATIONS = [
+        { lat: 12.7799064, lng: 105.9657238 },
+        { lat: 12.7804, lng: 105.9648 },
+      ];
+
+      const ALLOWED_METERS = 150;
+
+      const NORMAL_FORM = "https://forms.gle/VzJkUtFtwmsksSa48";
+
+      const LATE_FORM = "https://forms.gle/oYbGM2zYvVoTVC2eA";
+
+      const scanBtn = document.getElementById("scanBtn");
+
+      const statusEl = document.getElementById("status");
+
+      const loader = document.getElementById("loader");
+
+      const btnText = document.getElementById("btnText");
+
+      function distanceMeters(lat1, lon1, lat2, lon2) {
+        const R = 6371e3;
+
+        const toRad = (x) => (x * Math.PI) / 180;
+
+        const dLat = toRad(lat2 - lat1);
+
+        const dLon = toRad(lon2 - lon1);
+
+        const a =
+          Math.sin(dLat / 2) ** 2 +
+          Math.cos(toRad(lat1)) *
+            Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) ** 2;
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c;
+      }
+
+      function getTimeMode() {
+        const now = new Date();
+
+        const t = now.getHours() * 60 + now.getMinutes();
+
+        if (t >= 360 && t <= 455) return "normal";
+
+        if (t >= 456 && t <= 599) return "late";
+
+        if (t >= 600 && t <= 815) return "normal";
+
+        if (t >= 816 && t <= 899) return "late";
+
+        if (t >= 900 && t <= 1079) return "normal";
+
         return "closed";
       }
 
-      document
-        .getElementById("attendanceBtn")
-        .addEventListener("click", function (e) {
-          e.preventDefault();
+      function enableAttendance(mode) {
+        scanBtn.classList.remove("disabled", "red-danger");
 
-          // Check GPS permission
-          navigator.permissions
-            .query({ name: "geolocation" })
-            .then(function (result) {
-              if (result.state === "denied") {
-                Swal.fire(
-                  "❌ GPS Disabled",
-                  "សូមបើក Location នៅ browser",
-                  "error"
-                );
-                return;
-              }
+        btnText.textContent = mode === "late" ? "I'm Late" : "ចុះវត្តមាន";
 
-              Swal.fire({
-                title: "កំពុងចាប់ទីតាំង...",
-                text: "សូមរងចាំ...",
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading(),
-              });
+        scanBtn.onclick = () => {
+          window.location.href = mode === "late" ? LATE_FORM : NORMAL_FORM;
+        };
+      }
 
-              navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                  Swal.close();
-                  const lat = pos.coords.latitude;
-                  const lng = pos.coords.longitude;
+      function disableAttendance(reason) {
+        scanBtn.classList.add("disabled", "red-danger");
 
-                  const mode = getAttendanceFormByTime();
+        btnText.textContent = "មិនអនុញ្ញាត";
 
-                  if (mode === "normal") {
-                    window.location.href = normalForm;
-                  } else if (mode === "late") {
-                    Swal.fire({
-                      title: "⏰ មកយឺត!",
-                      text: "សូមបំពេញបែបបទ I'm Late",
-                      icon: "warning",
-                      confirmButtonText: "OK",
-                    }).then(() => (window.location.href = lateForm));
-                  } else {
-                    Swal.fire({
-                      title: "⏰ ក្រៅម៉ោងធ្វើការ!",
-                      text: "មិនអាចចុះវត្តមានបានទេ",
-                      icon: "error",
-                      confirmButtonText: "OK",
-                    });
-                  }
-                },
-                (err) => {
-                  Swal.fire(
-                    "⚠️ មិនអាចចាប់ទីតាំងបាន!",
-                    "សូមព្យាយាមម្តងទៀត",
-                    "warning"
-                  );
-                },
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-              );
+        scanBtn.onclick = () => {
+          Swal.fire({
+            icon: "error",
+            title: "មិនអាចចុះវត្តមាន",
+            html: reason,
+          });
+        };
+      }
+
+      function checkLocation() {
+        if (!navigator.geolocation) {
+          disableAttendance("Device មិនគាំទ្រ GPS");
+
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            loader.style.display = "none";
+
+            const lat = position.coords.latitude;
+
+            const lng = position.coords.longitude;
+
+            let inside = false;
+
+            let nearest = 999999;
+
+            WORK_LOCATIONS.forEach((loc) => {
+              const d = distanceMeters(lat, lng, loc.lat, loc.lng);
+
+              if (d < nearest) nearest = d;
+
+              if (d <= ALLOWED_METERS) inside = true;
             });
-        });
+
+            if (!inside) {
+              statusEl.innerHTML = `❌ ក្រៅតំបន់ (${Math.round(nearest)}m)`;
+
+              disableAttendance(
+                `អ្នកស្ថិតនៅក្រៅតំបន់ការងារ<br>ចម្ងាយ ${Math.round(nearest)}m`,
+              );
+
+              return;
+            }
+
+            const mode = getTimeMode();
+
+            if (mode === "closed") {
+              statusEl.innerHTML = "⏰ ក្រៅម៉ោងធ្វើការ";
+
+              disableAttendance("បច្ចុប្បន្នក្រៅម៉ោងការងារ");
+
+              return;
+            }
+
+            statusEl.innerHTML = `✅ នៅក្នុងតំបន់ (${Math.round(nearest)}m)`;
+
+            enableAttendance(mode);
+          },
+
+          (error) => {
+            loader.style.display = "none";
+
+            statusEl.innerHTML = "⚠️ មិនអាចចាប់ GPS";
+
+            disableAttendance("សូមបើក GPS និង Refresh Page");
+          },
+
+          {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 0,
+          },
+        );
+      }
+
+      checkLocation();
+
+      setInterval(checkLocation, 15000);
     </script>
   </body>
 </html>
